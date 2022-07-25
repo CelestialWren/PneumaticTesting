@@ -2,10 +2,17 @@
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo",
+      "/LiveWindow/Drivetrain": "Subsystem",
       "/LiveWindow/ExampleSubsystem": "Subsystem",
       "/LiveWindow/Pneumatics": "Subsystem",
       "/LiveWindow/ShuffleboardInfo": "Subsystem",
-      "/LiveWindow/Ungrouped/Scheduler": "Scheduler"
+      "/LiveWindow/Ungrouped/DifferentialDrive[1]": "DifferentialDrive",
+      "/LiveWindow/Ungrouped/Scheduler": "Scheduler",
+      "/Shuffleboard/Pneumatic Control/Compressor/Disable": "Command",
+      "/Shuffleboard/Pneumatic Control/Compressor/Enable": "Command",
+      "/Shuffleboard/Pneumatic Control/Control/Extend": "Command",
+      "/Shuffleboard/Pneumatic Control/Control/Float": "Command",
+      "/Shuffleboard/Pneumatic Control/Control/Retract": "Command"
     }
   }
 }

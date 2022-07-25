@@ -4,19 +4,22 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import frc.robot.commands.Pneumatics.DisableCompressor;
 import frc.robot.commands.Pneumatics.EnableCompressor;
+import frc.robot.commands.Pneumatics.ExtendIntake;
+import frc.robot.commands.Pneumatics.FloatIntake;
+import frc.robot.commands.Pneumatics.RetractIntake;
 import frc.robot.subsystems.ShuffleboardInfo;
 
 public class Pneumatics extends SubsystemBase {
@@ -24,17 +27,18 @@ public class Pneumatics extends SubsystemBase {
   private Compressor compress;
   private DoubleSolenoid solenoid;
   private static Pneumatics instance;
-  private PneumaticShuffleboard shuffleboard;
+  private static PneumaticShuffleboard shuffleboard;
 
   private Pneumatics() {
      compress = new Compressor(PneumaticsModuleType.CTREPCM);
      solenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 1, 0);
-    shuffleboard = new PneumaticShuffleboard();
   }
 
-  public static Pneumatics getInstance(){
-    if(instance == null)
+  public static synchronized Pneumatics getInstance(){
+    if(instance == null){
       instance = new Pneumatics();
+      shuffleboard = new PneumaticShuffleboard();
+    }
     return  instance;
 }
 
@@ -62,7 +66,17 @@ public class Pneumatics extends SubsystemBase {
     solenoid.close();
   }
 
-  public  class PneumaticShuffleboard{
+
+  /*public class Cylinder{
+    static ArrayList<String> names = new ArrayList<String>();
+    static ArrayList<Integer> IDs = new ArrayList<Integer>();
+    private Solenoid cylinder;
+   public Cylinder(String name, int port){
+      cylinder = new Solenoid(PneumaticsModuleType.CTREPCM, port);
+   }
+  }*/
+
+  public static class PneumaticShuffleboard{
       ShuffleboardTab tab = ShuffleboardInfo.getInstance().getPneumaticControl();
       public PneumaticShuffleboard(){
 ShuffleboardLayout controlLayout = tab.getLayout("Control", BuiltInLayouts.kList);
