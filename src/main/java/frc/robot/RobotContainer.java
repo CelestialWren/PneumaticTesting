@@ -9,12 +9,16 @@ import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.Pneumatics.ExtendIntake;
 import frc.robot.commands.Pneumatics.RetractIntake;
+import frc.robot.commands.Vision.AlignToTarget;
+import frc.robot.commands.Vision.DriveToTarget;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.Pneumatics;
+import frc.robot.subsystems.Vision;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -28,7 +32,8 @@ public class RobotContainer {
 
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
   private final Pneumatics pneumatics = Pneumatics.getInstance();
-  private final Drivetrain mDrivetrain = new Drivetrain();
+  private final Drivetrain mDrivetrain = Drivetrain.getInstance();
+  private final Vision vision = Vision.getInstance();
   
   private static final XboxController driverController = new XboxController(0);
 
@@ -49,9 +54,17 @@ public class RobotContainer {
   private void configureButtonBindings() {
    JoystickButton retractIntakeButton = new JoystickButton(driverController, XboxController.Button.kA.value);
    JoystickButton extendIntakeButton = new JoystickButton(driverController, XboxController.Button.kB.value);
+   JoystickButton alignRobotButton = new JoystickButton(driverController, XboxController.Button.kLeftBumper.value);
+   Trigger DriveToTargetButton = new Trigger(driverController::getRightBumper);
+
 
    retractIntakeButton.whenPressed(new RetractIntake());
    extendIntakeButton.whenPressed(new ExtendIntake());
+   alignRobotButton.whileActiveOnce(new AlignToTarget());
+   DriveToTargetButton.and(new Trigger(vision::hasTargets)).whileActiveOnce(new DriveToTarget());
+
+
+   
   }
 
   /**
@@ -66,6 +79,6 @@ public class RobotContainer {
 
   public Command getTeleopDrive(){
 
-    return new RunCommand(() -> mDrivetrain.tankDrive(driverController.getLeftY(), driverController.getRightY()), mDrivetrain);
+    return new RunCommand(() -> mDrivetrain.arcadeDrive(driverController.getLeftY(), driverController.getRightX()), mDrivetrain);
   }
 }
