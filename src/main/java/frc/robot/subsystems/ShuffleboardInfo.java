@@ -12,10 +12,12 @@ public class ShuffleboardInfo extends SubsystemBase {
   /** Creates a new Shuffleboard. */
   static ShuffleboardInfo  instance;
   static ShuffleboardTab  pneumaticControl;
+  static ShuffleboardTab drivetrainTab;
 
   
   private  ShuffleboardInfo() {
     pneumaticControl = Shuffleboard.getTab("Pneumatic Control");
+    drivetrainTab = Shuffleboard.getTab("Drivetrain");
 
   }
 
@@ -32,5 +34,9 @@ public class ShuffleboardInfo extends SubsystemBase {
 
   public  ShuffleboardTab getPneumaticControl() {
       return pneumaticControl;
+  }
+
+  public static ShuffleboardTab getDrivetrainTab() {
+      return drivetrainTab;
   }
 }
