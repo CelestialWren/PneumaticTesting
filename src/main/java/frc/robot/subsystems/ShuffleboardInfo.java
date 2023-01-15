@@ -13,6 +13,7 @@ public class ShuffleboardInfo extends SubsystemBase {
   static ShuffleboardInfo  instance;
   static ShuffleboardTab  pneumaticControl;
 
+
   
   private  ShuffleboardInfo() {
     pneumaticControl = Shuffleboard.getTab("Pneumatic Control");

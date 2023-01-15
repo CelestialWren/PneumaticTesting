@@ -12,15 +12,11 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Drivetrain extends SubsystemBase {
 
-  private static final int mLeftMotorLeaderPort = 4;
-  private static final int mLeftMotorFollowerPort = 1;
-  private static final int mRightMotorLeaderPort = 3;
-  private static final int mRightMotorFollowerPort = 2;
+  private static final int mLeftMotorLeaderPort = 3;
+  private static final int mRightMotorLeaderPort = 4;
 
   private CANSparkMax mLeftMotorLeader = new CANSparkMax(mLeftMotorLeaderPort, MotorType.kBrushless);
-  private CANSparkMax mLeftMotorFollower = new CANSparkMax(mLeftMotorFollowerPort, MotorType.kBrushless);
   private CANSparkMax mRightMotorLeader = new CANSparkMax(mRightMotorLeaderPort, MotorType.kBrushless);
-  private CANSparkMax mRightMotorFollower = new CANSparkMax(mRightMotorFollowerPort, MotorType.kBrushless);
 
   private DifferentialDrive mDrivetrain;
   private double mSpeedMultiplier = 0.5;
@@ -29,15 +25,9 @@ public class Drivetrain extends SubsystemBase {
   public Drivetrain() {
 
     mLeftMotorLeader.restoreFactoryDefaults();
-    mLeftMotorFollower.restoreFactoryDefaults();
     mRightMotorLeader.restoreFactoryDefaults();
-    mRightMotorFollower.restoreFactoryDefaults();
 
     mLeftMotorLeader.setInverted(true);
-    mLeftMotorFollower.setInverted(true);
-
-    mRightMotorFollower.follow(mRightMotorLeader);
-    mLeftMotorFollower.follow(mLeftMotorLeader);
 
     mDrivetrain = new DifferentialDrive(mLeftMotorLeader, mRightMotorLeader);
 
@@ -52,6 +42,9 @@ public class Drivetrain extends SubsystemBase {
   public void tankDrive(double leftSpeed, double rightSpeed)
   {
     mDrivetrain.tankDrive(mSpeedMultiplier * leftSpeed, mSpeedMultiplier * rightSpeed);
+  }
+  public void arcadeDrive(double xSpeed, double zRotation){
+    mDrivetrain.arcadeDrive(mSpeedMultiplier * xSpeed, mSpeedMultiplier * zRotation);
   }
 
 }

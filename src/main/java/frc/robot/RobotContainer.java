@@ -66,6 +66,6 @@ public class RobotContainer {
 
   public Command getTeleopDrive(){
 
-    return new RunCommand(() -> mDrivetrain.tankDrive(driverController.getLeftY(), driverController.getRightY()), mDrivetrain);
+    return new RunCommand(() -> mDrivetrain.arcadeDrive(driverController.getLeftY(), -driverController.getRightX()), mDrivetrain);
   }
 }
